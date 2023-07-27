@@ -48,7 +48,7 @@ else:
 
 #Q4. Write a program to print the first non-repeated character from a string?    
 
-""" str1 = input("Enter the string: " )
+str1 = input("Enter the string: " )
 l = len(str1)
 found = None
 
@@ -59,12 +59,12 @@ for i in str1:
         break
 
 if (found == False):
-    print("there is non repeating char in str1") """
+    print("there is non repeating char in str1") 
 
 
 #Q5. Read about the Tower of Hanoi algorithm. Write a program to implement it.
 
-""" def TowerOfHanoi(n , from_rod, to_rod, aux_rod):
+def TowerOfHanoi(n , from_rod, to_rod, aux_rod):
     if n == 1:
         print("Move disk 1 from rod",from_rod,"to rod",to_rod)
         return
@@ -73,9 +73,9 @@ if (found == False):
     TowerOfHanoi(n-1, aux_rod, to_rod, from_rod)
     
 n = 3
-TowerOfHanoi(n, 'A', 'C', 'B') """
+TowerOfHanoi(n, 'A', 'C', 'B')
 
-#Read about infix, prefix, and postfix expressions. Write a program to convert postfix to prefix expression.
+#Q6. Read about infix, prefix, and postfix expressions. Write a program to convert postfix to prefix expression.
 
 def isOperator(x):
 
@@ -107,11 +107,11 @@ def postToPre(post_exp):
             s.pop()
             op2 = s[-1]
             s.pop()
-        temp = post_exp[i] + op2 + op1
+            temp = post_exp[i] + op2 + op1
 
-        s.append(temp)
+            s.append(temp)
 
-    else:
+        else:
 
             s.append(post_exp[i])
 
@@ -125,3 +125,136 @@ if __name__ == "__main__":
     post_exp = "AB+CD-"
 
     print("Prefix : ", postToPre(post_exp))
+
+
+#Q7. Write a program to convert prefix expression to infix expression.
+
+def prefixToInfix(prefix):
+    stack = []
+
+    i = len(prefix) - 1
+    while i >= 0:
+        if not isOperator(prefix[i]):
+
+            stack.append(prefix[i])
+            i -= 1
+        else:
+
+            str = "(" + stack.pop() + prefix[i] + stack.pop() + ")"
+            stack.append(str)
+            i -= 1
+
+    return stack.pop()
+
+def isOperator(c):
+    if c == "*" or c == "+" or c == "-" or c == "/" or c == "^" or c == "(" or c == ")":
+        return True
+    else:
+        return False
+
+if __name__=="__main__":
+    str = "*-A/BC-/AKL"
+    print(prefixToInfix(str))
+
+
+#Q8. Write a program to check if all the brackets are closed in a given code snippet.
+
+def areBracketsBalanced(expr):
+    stack = []
+
+    for char in expr:
+        if char in ["(", "{", "["]:
+
+            stack.append(char)
+        else:
+
+            if not stack:
+                return False
+            current_char = stack.pop()
+            if current_char == '(':
+                if char != ")":
+                    return False
+            if current_char == '{':
+                if char != "}":
+                    return False
+            if current_char == '[':
+                if char != "]":
+                    return False
+
+    if stack:
+        return False
+    return True
+
+if __name__ == "__main__":
+    expr = "{()}[]"
+
+    if areBracketsBalanced(expr):
+        print("Balanced")
+    else:
+        print("Not Balanced")   
+
+
+#Q9. Write a program to reverse a stack.
+
+class Stack:
+
+    def __init__(self):
+        self.Elements = []
+
+    def push(self, value):
+        self.Elements.append(value)
+        
+    def pop(self):
+        return self.Elements.pop()
+    
+    def empty(self):
+        return self.Elements == []
+
+    def show(self):
+        for value in reversed(self.Elements):
+            print(value)
+
+def BottomInsert(s, value):
+
+    if s.empty():
+
+        s.push(value)
+
+    else:
+        popped = s.pop()
+        BottomInsert(s, value)
+        s.push(popped)
+
+def Reverse(s):
+    if s.empty():
+        pass
+    else:
+        popped = s.pop()
+        Reverse(s)
+        BottomInsert(s, popped)
+
+stk = Stack()
+
+stk.push(1)
+stk.push(2)
+stk.push(3)
+stk.push(4)
+stk.push(5)
+
+print("Original Stack")
+stk.show()
+
+print("\nStack after Reversing")
+Reverse(stk)
+stk.show()
+
+#Q10. Write a program to find the smallest number using a stack.
+
+First = []
+num = int(input('How many numbers: '))
+
+for n in range(num):
+    numbers = int(input('Enter number: '))
+    First.append(numbers)
+    
+print("Smallest number in the list is :  ", min(First))
